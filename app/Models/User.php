@@ -48,4 +48,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+
+    // user has one market
+    public function market()
+    {
+        return $this->hasOne(Market::class);
+    }
 }
