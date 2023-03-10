@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Cart extends Model
 {
     use HasFactory;
-    protected $fillable = ['market_id','name','price', 'desc', 'status'];
+    protected $fillable = ['user_id'];
 
-    // Product belongs to one Market
-    public function market()
+    public function user()
     {
-        return $this->belongsTo(Market::class);
+        return $this->belongsTo(User::class);
     }
 
     public function items()

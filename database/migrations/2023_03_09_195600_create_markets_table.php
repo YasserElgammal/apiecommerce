@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('name')->nullable();
             $table->boolean('vat_included')->default(false);
-            $table->string('vat')->nullable();
+            $table->integer('vat')->nullable();
             $table->timestamps();
         });
     }

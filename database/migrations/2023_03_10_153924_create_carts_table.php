@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('market_id')->constrained('markets')->onDelete('cascade');
-            $table->string('name')->nullable();
-            $table->text('desc')->nullable();
-            $table->double('price')->nullable();
-            $table->boolean('status')->default(true);
+            $table->double('total')->nullable();
+            $table->double('total_vat')->nullable();
+            $table->enum('status',['Pending','Ordered'])->default('Pending');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('carts');
     }
 };
