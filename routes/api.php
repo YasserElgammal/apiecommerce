@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\MarketController;
+use App\Http\Controllers\Api\V1\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,7 @@ Route::prefix('v1')->group(function () {
         Route::get('index', [MarketController::class, 'index']);
         Route::patch('set-name', [MarketController::class, 'setStoreName']);
         Route::patch('set-vat-options', [MarketController::class, 'setVatOptions']);
+        Route::post('add-product', [ProductController::class, 'addProduct']);
     });
 });
 
