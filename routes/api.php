@@ -8,20 +8,6 @@ use App\Http\Controllers\Api\V1\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 /*
 I've identified the version so it will be easy to handle the version number,
@@ -51,6 +37,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware(['auth:sanctum','abilities:user:roles'])->prefix('customer')->group(function () {
         Route::post('add-item-cart', [ItemController::class, 'addItemCart']);
         Route::get('get-cart-items', [CartController::class, 'getCartItems']);
+        Route::get('list-all-products', [ProductController::class, 'getAllProducts'])->middleware('checkLang');
     });
 });
 

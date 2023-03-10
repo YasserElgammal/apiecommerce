@@ -26,6 +26,8 @@ class StoreProductRequest extends FormRequest
             'desc' => ['required', 'max:500'],
             'price' => ['required', 'numeric' ,'min:1'],
             'status' => ['required', 'boolean'],
+            'name_ar' => ['required','min:3' ,'max:150'],
+            'desc_ar' => ['required','max:500'],
         ];
     }
 }
