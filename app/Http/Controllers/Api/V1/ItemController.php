@@ -19,13 +19,14 @@ class ItemController extends Controller
 
         // get product details
         $product = Product::with('market')->find($product_id);
-
+        
         // Check Product status
         if(!$product->status){
             return response(['success'=> false,'message'=> 'Not Allowed to Add this item']);
         }
 
         $product_price = $product->price;
+        $product_name = $product->name;
 
         // check Vat Option
         if ($product->market->vat_included) {
@@ -42,7 +43,7 @@ class ItemController extends Controller
             $current_user_card_total_vat = $current_user_card['total_vat'];
 
             // create Item
-            $this->addItemDetails($product_price, $price_vat, $product_id, $current_user_card_id);
+            $this->addItemDetails($product_name, $product_price, $price_vat, $product_id, $current_user_card_id);
             Cart::where('id', $current_user_card_id )->update(['total' => ($current_user_card_total + $product_price),
              'total_vat' => ($price_vat + $current_user_card_total_vat) ]);
 
@@ -54,7 +55,7 @@ class ItemController extends Controller
             $cart_id = $new_cart['id'];
 
             // create Item
-            $this->addItemDetails($product_price, $price_vat, $product_id, $cart_id);
+            $this->addItemDetails($product_name, $product_price, $price_vat, $product_id, $cart_id);
 
             Cart::where('id', $cart_id )->update(['total' => $product_price, 'total_vat' => $price_vat]);
 
@@ -62,9 +63,10 @@ class ItemController extends Controller
         }
     }
 
-    protected function addItemDetails($price, $price_vat, $product_id, $cart_id)
+    protected function addItemDetails($name, $price, $price_vat, $product_id, $cart_id)
     {
         Item::create([
+            'name' => $name,
             'price' => $price,
             'price_vat' => $price_vat,
             'product_id' => $product_id,

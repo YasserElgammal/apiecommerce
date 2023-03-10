@@ -34,10 +34,10 @@ Route::prefix('v1')->group(function () {
     });
 
     // Special To User"Customers" Only
-    Route::middleware(['auth:sanctum','abilities:user:roles'])->prefix('customer')->group(function () {
+    Route::middleware(['auth:sanctum','abilities:user:roles', 'checkLang'])->prefix('customer')->group(function () {
         Route::post('add-item-cart', [ItemController::class, 'addItemCart']);
         Route::get('get-cart-items', [CartController::class, 'getCartItems']);
-        Route::get('list-all-products', [ProductController::class, 'getAllProducts'])->middleware('checkLang');
+        Route::get('list-all-products', [ProductController::class, 'getAllProducts']);
     });
 });
 
