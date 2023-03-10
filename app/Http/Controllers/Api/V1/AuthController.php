@@ -39,7 +39,7 @@ class AuthController extends Controller
             return response(['success'=> false, 'message'=>'Invalid credentials'],401);
         }
 
-        if(auth()->user()->role == "Merchant") // mean this user choose to be merchant
+        if(auth()->user()->role_id == 1) // mean this user is merchant
         {
             // create token for merchant
             $token =  auth()->user()->createToken('token-name', ['merchant:roles'])->plainTextToken;

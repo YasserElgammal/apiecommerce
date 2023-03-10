@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\MarketController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// public routes
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
+/*
+I've identified the version so it will be easy to handle the version number,
+especially for mobile apps
+*/
+Route::prefix('v1')->group(function () {
+    // public routes
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+
+    // Special To Merchant Only
+    Route::middleware(['auth:sanctum','abilities:merchant:roles'])->prefix('merchant')->group(function () {
+        Route::get('index', [MarketController::class, 'index']);
+        Route::patch('set-name', [MarketController::class, 'setStoreName']);
+        Route::patch('set-vat-options', [MarketController::class, 'setVatOptions']);
+    });
+});
+
