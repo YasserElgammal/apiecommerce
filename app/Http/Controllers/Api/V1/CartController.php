@@ -11,8 +11,15 @@ class CartController extends Controller
     public function getCartItems()
     {
         $auth_user = auth()->user()->id;
-        $auth_user_cart_items = Cart::with('items')->where('user_id', $auth_user)->get();
 
-        return $auth_user_cart_items;
+        if (Cart::where([['user_id', $auth_user] , ['status','Pending']])->exists()) {
+
+            $auth_user_cart_items = Cart::with('items')->where([['user_id', $auth_user] , ['status','Pending']])->get();
+            return response(['success'=> true,'cart'=> $auth_user_cart_items]);
+
+        }else{
+            return response(['success'=> false,'message'=> 'You Don\'t have items in your cart']);
+        }
+        //return $auth_user_cart_items;
     }
 }

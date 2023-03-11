@@ -27,7 +27,5 @@ class ProductController extends Controller
     {
         $products = Product::all();
         return ProductResource::collection($products);
-        // return Product::whereLocale('name', 'ar')->get(); // Returns all news items with a name in English
-
     }
 }
