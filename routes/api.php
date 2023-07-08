@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
-use App\Http\Controllers\Api\V1\CartController;
-use App\Http\Controllers\Api\V1\ItemController;
-use App\Http\Controllers\Api\V1\MarketController;
-use App\Http\Controllers\Api\V1\ProductController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\V1\Customer\CartController;
+use App\Http\Controllers\Api\V1\Customer\ItemController;
+use App\Http\Controllers\Api\V1\Merchant\MarketController;
+use App\Http\Controllers\Api\V1\Merchant\ProductController as MerchantProductController;
+use App\Http\Controllers\Api\V1\Customer\ProductController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -26,17 +26,23 @@ Route::prefix('v1')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
 
     // Special To Merchant Only
-    Route::middleware(['auth:sanctum','abilities:merchant:roles'])->prefix('merchant')->group(function () {
-        Route::get('index', [MarketController::class, 'index']);
-        Route::patch('set-name', [MarketController::class, 'setStoreName']);
-        Route::patch('set-vat-options', [MarketController::class, 'setVatOptions']);
-        Route::post('add-product', [ProductController::class, 'addProduct']);
+    Route::middleware(['auth:sanctum','abilities:merchant'])->prefix('merchant')->group(function () {
+
+        Route::controller(MarketController::class)->group(function () {
+            Route::get('index', 'index');
+            Route::patch('set-name', 'setStoreName');
+            Route::patch('set-vat-options', 'setVatOptions');
+        });
+
+        Route::resource('products', MerchantProductController::class);
     });
 
     // Special To User"Customers" Only
-    Route::middleware(['auth:sanctum','abilities:user:roles', 'checkLang'])->prefix('customer')->group(function () {
+    Route::middleware(['auth:sanctum','abilities:customer', 'checkLang'])->prefix('customer')->group(function () {
         Route::post('add-item-cart', [ItemController::class, 'addItemCart']);
+        Route::post('remove-item-cart', [ItemController::class, 'removeItemFromCart']);
         Route::get('get-cart-items', [CartController::class, 'getCartItems']);
+        Route::get('list-cart', [CartController::class, 'listAllOrders']);
         Route::get('list-all-products', [ProductController::class, 'getAllProducts']);
     });
 });

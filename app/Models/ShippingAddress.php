@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cart extends Model
+class ShippingAddress extends Model
 {
     use HasFactory;
     protected $guarded = ['id', 'created_at', 'updated_at'];
@@ -14,10 +14,4 @@ class Cart extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    public function items()
-    {
-        return $this->hasMany(Item::class);
-    }
-
 }

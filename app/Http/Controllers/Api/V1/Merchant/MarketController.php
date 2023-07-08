@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api\V1\Merchant;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ class MarketController extends Controller
     // echo echo
     public function index()
     {
-        if (auth()->user()->tokenCan('merchant:roles')) {
+        if (auth()->user()->tokenCan('merchant')) {
         return response(['success'=> true, 'message'=>'Hello']);
         }else{
             return response(['success'=> false, 'message'=>'Go Away']);

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Item extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'price', 'price_vat', 'product_id', 'cart_id'];
+    protected $fillable = ['name', 'price', 'qty', 'price_vat', 'product_id', 'cart_id'];
 
     // One to many realtionship -> Users has many Cart
     public function cart()
