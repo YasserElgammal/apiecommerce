@@ -24,10 +24,10 @@ class CartController extends Controller
     {
         $submit_order = $request->validate([
             'payment_option' => ['required', 'in:Cash,Visa'],
-            ['shipping_address_id' => ['required', 'exists:shipping_addresses,id']]
+            'shipping_address_id' => ['required', 'exists:shipping_addresses,id']
         ]);
 
-        $auth_user_cart_items = Cart::with('items')->where([['user_id', auth()->id()], ['status', 'Pending']])->get();
+        $auth_user_cart_items = Cart::with('items')->where([['user_id', auth()->id()], ['status', 'Pending']])->first();
 
         $auth_user_cart_items->update([
             'shipping_address_id' => $submit_order['shipping_address_id'],

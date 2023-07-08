@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\Customer\ItemController;
 use App\Http\Controllers\Api\V1\Merchant\MarketController;
 use App\Http\Controllers\Api\V1\Merchant\ProductController as MerchantProductController;
 use App\Http\Controllers\Api\V1\Customer\ProductController;
+use App\Http\Controllers\Api\V1\Merchant\OrderController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -35,6 +36,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::resource('products', MerchantProductController::class);
+        Route::resource('orders', OrderController::class);
     });
 
     // Special To User"Customers" Only
@@ -43,6 +45,7 @@ Route::prefix('v1')->group(function () {
         Route::post('remove-item-cart', [ItemController::class, 'removeItemFromCart']);
         Route::get('get-cart-items', [CartController::class, 'getCartItems']);
         Route::get('list-cart', [CartController::class, 'listAllOrders']);
+        Route::post('submit-order', [CartController::class, 'submitOrder']);
         Route::get('list-all-products', [ProductController::class, 'getAllProducts']);
     });
 });
