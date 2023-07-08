@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('market_id')->constrained('markets')->onDelete('cascade');
             $table->string('name')->nullable();
             $table->text('desc')->nullable();
-            $table->double('price')->nullable();
+            $table->decimal('price')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

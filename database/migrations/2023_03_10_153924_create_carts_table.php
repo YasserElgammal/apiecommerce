@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->double('total')->nullable();
-            $table->double('total_vat')->nullable();
-            $table->enum('status',['Pending','Ordered'])->default('Pending');
+            $table->decimal('total')->nullable();
+            $table->decimal('total_vat')->nullable();
+            $table->enum('status',['Pending', 'Ordered', 'Processing','Shipping', 'Delivered'])->default('Pending');
+            $table->enum('payment_option',['Cash', 'Visa'])->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('shipping_address_id')->nullable()->constrained('shipping_addresses')->onDelete('cascade');
             $table->timestamps();
         });
     }

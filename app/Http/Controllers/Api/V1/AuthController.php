@@ -23,9 +23,9 @@ class AuthController extends Controller
         {
             // lets create market
             $user->market()->save(new Market());
-            $token =  $user->createToken('token-name', ['merchant:roles'])->plainTextToken;
+            $token =  $user->createToken('token-name', ['merchant'])->plainTextToken;
         }else{
-            $token =  $user->createToken('token-name', ['user:roles'])->plainTextToken;
+            $token =  $user->createToken('token-name', ['customer'])->plainTextToken;
         }
 
         return response(['success'=> true,'user'=> $user, 'access_token'=> $token]);
@@ -42,10 +42,10 @@ class AuthController extends Controller
         if(auth()->user()->role_id == 1) // mean this user is merchant
         {
             // create token for merchant
-            $token =  auth()->user()->createToken('token-name', ['merchant:roles'])->plainTextToken;
+            $token =  auth()->user()->createToken('token-name', ['merchant'])->plainTextToken;
         }else{
             // create token for user
-            $token =  auth()->user()->createToken('token-name', ['user:roles'])->plainTextToken;
+            $token =  auth()->user()->createToken('token-name', ['customer'])->plainTextToken;
         }
 
         return response(['success'=> true,'user'=> auth()->user(), 'access_token'=> $token]);
