@@ -6,7 +6,9 @@ use App\Http\Controllers\Api\V1\Customer\ItemController;
 use App\Http\Controllers\Api\V1\Merchant\MarketController;
 use App\Http\Controllers\Api\V1\Merchant\ProductController as MerchantProductController;
 use App\Http\Controllers\Api\V1\Customer\ProductController;
+use App\Http\Controllers\Api\V1\Customer\ShippingAddressController;
 use App\Http\Controllers\Api\V1\Merchant\OrderController;
+use App\Models\ShippingAddress;
 use Illuminate\Support\Facades\Route;
 
 
@@ -41,6 +43,7 @@ Route::prefix('v1')->group(function () {
 
     // Special To User"Customers" Only
     Route::middleware(['auth:sanctum','abilities:customer', 'checkLang'])->prefix('customer')->group(function () {
+        Route::resource('shipping-adresses', ShippingAddressController::class);
         Route::post('add-item-cart', [ItemController::class, 'addItemCart']);
         Route::post('remove-item-cart', [ItemController::class, 'removeItemFromCart']);
         Route::get('get-cart-items', [CartController::class, 'getCartItems']);
